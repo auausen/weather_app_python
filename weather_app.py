@@ -7,7 +7,7 @@ import os
 from datetime import datetime
 
 # APIキーとベースURL
-API_KEY = "WEATHER_API_KEY"  # OPENWeatherMapから取得したAPIキー
+API_KEY = "2b3549d989d38361c1d5825519c39f65"  # OPENWeatherMapから取得したAPIキー
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast"
 
@@ -175,3 +175,54 @@ class WeatherApp:
 
         # お気に入りの表示
         self.update_favorites_display()
+        
+def search_weathwe(self):
+    """都市名で天気を検索する"""
+    city = self.search_var.get().strip()
+    if not city:
+        messagebox.showinfo("情報", "都市名を入力してください")
+        return
+    
+    # 現在の天気データを取得
+    weather_data = get_weather_data(city)
+    
+    if "error" in weather_data:
+        messagebox.showerror("エラー", weather_data["error"])
+        return
+    
+    # 天気情報の表示
+    self.display_current_weather(weather_data)
+    
+    # 予報データを取得
+    forecast_data = get_forecast_data(city)
+    
+    if "error" not in forecast_data:
+        self.display_forecast(forecast_data)
+        
+
+def display_current_weather(self, data):
+    """現在の天気情報を表示する"""
+    # 都市名と国
+    city_name = data["name"]
+    country = data["sys"]["coutry"]
+    
+    # 天気の説明
+    weather_desc = data["weather"][0]["description"]
+    
+    # 気温
+    temp = data["main"]["temp"]
+    feels_like = data["main"]["feels_like"]
+    temp_min = data["main"]["temp_min"]
+    temp_max = data["main"]["temp_max"]
+    
+    # 湿度と気圧
+    humidity = data["main"]["humidity"]
+    pressure = data["main"]["pressure"]
+    
+    # 風速と風向
+    wind_speed = data["wind"]["speed"]
+    wind_deg = data["wind"]["deg"]
+    wind_direction = self.get_wind_directin(wind_deg)
+    
+    # 日の出と日の入り
+    
